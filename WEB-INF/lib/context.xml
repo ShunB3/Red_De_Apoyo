@@ -1,0 +1,7 @@
+<Context>
+    <Resource name="jdbc/epscuritas" auth="Container" type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="tu_usuario" password="tu_contraseña"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/craftopia"/>
+</Context>
