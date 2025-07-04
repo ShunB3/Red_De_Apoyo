@@ -1,471 +1,463 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!-- Registro_emprendedor.jsp -->
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Registro Emprendedor</title>
-    <link rel="shortcut icon" href="Img/imgEmprender.png" type="image/png">
+  <meta charset="UTF-8">
+  <title>Registro de Emprendedor</title>
+  <link rel="shortcut icon" href="Img/imgEmprender.png" type="image/png">
+  <style>
+    /* ===== RESET Y ESTILOS BÁSICOS ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .form-container {
+      background: #1f1f1f;
+      padding: 2rem 2.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      width: 100%;
+      max-width: 500px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #1abc9c;
+      font-size: 1.8rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+      color: #ccc;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 4px;
+      color: #e0e0e0;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #1abc9c;
+      box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.15);
+    }
 
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        header {
-            background-color: #1e1e1e;
-            padding: 1.2rem;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-        header h1 {
-            font-size: 2rem;
-            margin: 0;
-        }
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-        form {
-            background-color: #1f1f1f;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 450px;
-        }
-        form label {
-            display: block;
-            margin-top: 1rem;
-            font-weight: bold;
-        }
-        form input,
-        form textarea {
-            width: 100%;
-            padding: 0.6rem;
-            margin-top: 0.4rem;
-            background-color: #2a2a2a;
-            border: 1px solid #444;
-            border-radius: 4px;
-            color: #e0e0e0;
-        }
-        form textarea { resize: vertical; }
-        .strength-meter {
-            height: 6px;
-            border-radius: 3px;
-            background: #444;
-            margin-top: 0.5rem;
-            overflow: hidden;
-        }
-        .strength-meter-fill {
-            height: 100%;
-            width: 0;
-            background: red;
-            transition: width 0.3s ease, background 0.3s ease;
-        }
-        .strength-text {
-            margin-top: 0.3rem;
-            font-size: 0.85rem;
-            color: #ccc;
-        }
-        .strength-text.weak   { color: #e74c3c; }
-        .strength-text.medium { color: #f39c12; }
-        .strength-text.strong { color: #2ecc71; }
-        
-        /* Estilos para los requisitos de contraseña */
-        .pwd-requisitos {
-            margin-top: 1rem;
-            background-color: #2a2a2a;
-            padding: 1.2rem;
-            border-radius: 8px;
-            border: 1px solid #333;
-        }
-        .pwd-requisitos ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .pwd-requisitos li {
-            margin: 0.7rem 0;
-            display: flex;
-            align-items: center;
-            color: #e0e0e0;
-            font-size: 0.95rem;
-        }
-        .req-icon {
-            margin-right: 10px;
-            color: #e74c3c;
-            font-size: 1.1rem;
-        }
-        .no-metido .req-icon {
-            color: #e74c3c;
-        }
-        .metido .req-icon {
-            color: #2ecc71;
-        }
-        .pwd-requisitos strong {
-            color: #00c1c1;
-            margin: 0 4px;
-        }
-        .btn {
-            background-color: #008891;
-            color: #fff;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1.5rem;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        .btn:hover { background-color: #006f78; }
-        form a {
-            display: block;
-            margin-top: 1rem;
-            text-align: center;
-            color: #00c1c1;
-            text-decoration: none;
-        }
-        form a:hover { text-decoration: underline; }
+    /* Lista de requisitos de contraseña */
+    .password-requirements {
+      list-style: none;
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+    .password-requirements li {
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+    }
+    .password-requirements li .icon {
+      display: inline-block;
+      width: 1rem;
+      text-align: center;
+      margin-right: 0.5rem;
+      font-weight: bold;
+    }
+    .icon.invalid {
+      color: #e74c3c; /* rojo */
+    }
+    .icon.valid {
+      color: #2ecc71; /* verde */
+    }
 
-        /* Estilos para términos y condiciones */
-        .terms {
-            margin-top: 1.5rem;
-            display: flex;
-            align-items: center;
-        }
-        .terms input[type="checkbox"] {
-            width: auto;
-            margin-right: 8px;
-        }
-        .terms label {
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-            color: #e0e0e0;
-        }
-        .terms a {
-            color: #00c1c1;
-            text-decoration: none;
-            margin-left: 0.25rem;
-            display: inline;
-        }
-        .terms a:hover {
-            text-decoration: underline;
-        }
+    /* Checkbox de términos */
+    .terms-container {
+      margin-top: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .terms-container input {
+      margin-top: 0.2rem;
+    }
+    .terms-text {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-top: 0.5rem;
+      padding: 0.8rem;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 4px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
 
-        /* Modal de Términos y Condiciones */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 1000;
-        }
-        .modal-content {
-            background: #1f1f1f;
-            margin: 5% auto;
-            padding: 2.5rem;
-            width: 90%;
-            max-width: 700px;
-            max-height: 85vh;
-            overflow-y: auto;
-            border-radius: 12px;
-            position: relative;
-            color: #e0e0e0;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-        .modal-content::-webkit-scrollbar {
-            width: 8px;
-        }
-        .modal-content::-webkit-scrollbar-track {
-            background: #2a2a2a;
-            border-radius: 4px;
-        }
-        .modal-content::-webkit-scrollbar-thumb {
-            background: #444;
-            border-radius: 4px;
-        }
-        .modal-content::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-        .close-modal {
-            position: absolute;
-            right: 1.5rem;
-            top: 1.5rem;
-            color: #888;
-            font-size: 1.75rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .close-modal:hover {
-            color: #fff;
-        }
-        .modal-content h2 {
-            color: #00c1c1;
-            margin: 0 0 1.5rem 0;
-            font-size: 1.8rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #2a2a2a;
-        }
-        .modal-content h3 {
-            color: #00a5a5;
-            margin: 1.5rem 0 1rem 0;
-            font-size: 1.3rem;
-        }
-        .modal-content p {
-            margin: 1rem 0;
-            line-height: 1.7;
-            color: #e0e0e0;
-        }
-        .modal-content ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        .modal-content li {
-            margin: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        .modal-content li:before {
-            content: "•";
-            color: #00c1c1;
-            position: absolute;
-            left: 0;
-        }
-        .modal-section {
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        .modal-section:last-child {
-            border-bottom: none;
-        }
+    .btn-submit {
+      width: 100%;
+      padding: 0.75rem;
+      background: #1abc9c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 1rem;
     }
-    .close-modal:hover {
-        color: #fff;
+    .btn-submit:disabled {
+      background: #555;
+      cursor: not-allowed;
     }
-    .modal-content h2 {
-        color: #00c1c1;
-        margin: 0;
+    .btn-submit:hover:enabled {
+      background: #16a085;
     }
-    .modal-content p {
-        margin: 1rem 0;
-        line-height: 1.6;
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: #888;
+      font-size: 0.9rem;
+      text-decoration: none;
     }
-    footer {
-        background-color: #1e1e1e;
-        text-align: center;
-        padding: 1rem;
-        color: #888;
+    .back-link:hover {
+      color: #ccc;
     }
-</style>
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>Registro de Emprendedor</h1>
-</header>
+  <div class="form-container">
+    <h2>Registrar Emprendedor</h2>
+    <form id="registroForm" action="registro_emprendedor_action.jsp" method="post">
+      <!-- Nombre completo -->
+      <div class="form-group">
+        <label for="nombre">Nombre completo:</label>
+        <input type="text" id="nombre" name="nombre" required>
+      </div>
 
-<main>
-    <form action="registro_emprendedor_action.jsp" method="post" id="regForm">
-        <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" id="nombre" required>
-
+      <!-- Correo electrónico -->
+      <div class="form-group">
         <label for="email">Correo electrónico:</label>
-        <input type="email" name="email" id="email" required>
+        <input type="email" id="email" name="email" required>
+      </div>
 
+      <!-- Contraseña con requisitos dinámicos -->
+      <div class="form-group">
         <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" required>
-        <!-- medidor de fuerza -->
-        <div class="strength-meter" id="strengthMeter">
-          <div class="strength-meter-fill" id="strengthFill"></div>
-        </div>
-        <div class="strength-text" id="strengthText">Introduce una contraseña</div>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          minlength="8"
+          title="8+ caracteres, al menos una mayúscula, una minúscula, un dígito y un carácter especial (!@#$%^&*)"
+        >
+        <!-- Lista de requisitos -->
+        <ul class="password-requirements" id="pwd-requirements">
+          <li id="req-length">
+            <span class="icon invalid" id="icon-length">✖</span>
+            Mínimo 8 caracteres
+          </li>
+          <li id="req-lower">
+            <span class="icon invalid" id="icon-lower">✖</span>
+            Al menos una letra minúscula
+          </li>
+          <li id="req-upper">
+            <span class="icon invalid" id="icon-upper">✖</span>
+            Al menos una letra mayúscula
+          </li>
+          <li id="req-digit">
+            <span class="icon invalid" id="icon-digit">✖</span>
+            Al menos un dígito
+          </li>
+          <li id="req-special">
+            <span class="icon invalid" id="icon-special">✖</span>
+            Al menos un carácter especial (!@#$%^&*)
+          </li>
+        </ul>
+      </div>
 
-            <div class="pwd-requisitos">
-                <ul>
-                    <li id="req-length" class="no-metido"><span class="req-icon">✖</span> Al menos <strong>8 caracteres</strong></li>
-                    <li id="req-upper" class="no-metido"><span class="req-icon">✖</span> Contener <strong>una letra mayúscula</strong></li>
-                    <li id="req-special" class="no-metido"><span class="req-icon">✖</span> Contener <strong>un carácter especial</strong> (p. ej. !@#$%)</li>
-                </ul>
-            </div>
-        <label for="negocio">Nombre del negocio:</label>
-        <input type="text" name="negocio" id="negocio" required>
+      <!-- Nombre del negocio -->
+      <div class="form-group">
+        <label for="negocio">Nombre de tu negocio:</label>
+        <input type="text" id="negocio" name="negocio" required>
+      </div>
 
+      <!-- Categoría -->
+      <div class="form-group">
+        <label for="categoria">Categoría:</label>
+        <select id="categoria" name="categoria" required>
+          <option value="">-- Selecciona una categoría --</option>
+          <option value="Alimentos">Alimentos</option>
+          <option value="Artesanía">Artesanía</option>
+          <option value="Arte">Arte</option>
+          <option value="Belleza">Belleza</option>
+          <option value="Café">Café</option>
+          <option value ="Construcción">Construcción</option>
+          <option value="Deportes">Deportes</option>
+          <option value="Educación">Educación</option>
+          <option value="Flores">Flores</option>
+          <option value="Hogar">Hogar</option>
+          <option value="Moda">Moda</option>
+          <option value="Salud">Salud</option>
+          <option value="Servicios">Servicios</option>
+          <option value="Tecnología">Tecnología</option>
+        </select>
+      </div>
+
+      <!-- Dirección física -->
+      <div class="form-group">
+        <label for="direccion">Dirección de tu local:</label>
+        <input type="text" id="direccion" name="direccion" placeholder="Av. Principal #123" required>
+      </div>
+
+
+      <!-- Departamento -->
+      <div class="form-group">
+        <label for="departamento">Departamento:</label>
+        <select id="departamento" name="departamento" required>
+          <option value="">-- Selecciona un departamento --</option>
+            <option value="Antioquia">Antioquia</option>
+            <option value="Atlántico">Atlántico</option>
+            <option value="Bolívar">Bolívar</option>
+            <option value="Bogotá D.C.">Bogotá D.C.</option>
+            <option value="Boyacá">Boyacá</option>
+            <option value="Caldas">Caldas</option>
+            <option value="Cauca">Cauca</option>
+            <option value="Cundinamarca">Cundinamarca</option>
+            <option value="Huila">Huila</option>
+            <option value="Magdalena">Magdalena</option>
+            <option value="Meta">Meta</option>
+            <option value="Nariño">Nariño</option>
+            <option value="Norte de Santander">Norte de Santander</option>
+            <option value="Quindío">Quindío</option>
+            <option value="Risaralda">Risaralda</option>
+            <option value="Santander">Santander</option>
+            <option value="Tolima">Tolima</option>
+            <option value="Valle del Cauca">Valle del Cauca</option>
+
+          <!-- … añade el resto de departamentos … -->
+        </select>
+      </div>
+
+      <!-- Ciudad (se llena dinámicamente) -->
+      <div class="form-group">
+        <label for="ciudad">Ciudad:</label>
+        <select id="ciudad" name="ciudad" required>
+          <option value="">Primero elige un departamento</option>
+        </select>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="form-group">
         <label for="telefono">Teléfono:</label>
-        <input type="text" name="telefono" id="telefono" required>
+        <input type="tel" id="telefono" name="telefono" placeholder="+57 300 1234567" required>
+      </div>
 
-        <label for="descripcion">Descripción:</label>
-        <textarea name="descripcion" id="descripcion" rows="3" required></textarea>
+      <!-- Descripción -->
+      <div class="form-group">
+        <label for="descripcion">Descripción breve de tu emprendimiento:</label>
+        <textarea id="descripcion" name="descripcion" rows="3"></textarea>
+      </div>
+  <!-- Redes Sociales -->
+      <div class="form-group">
+        <label for="instagram">Link Instagram:</label>
+        <input type="url" id="instagram" name="instagram" placeholder="https://instagram.com/tu_usuario">
+      </div>
+      <div class="form-group">
+        <label for="facebook">Link Facebook:</label>
+        <input type="url" id="facebook" name="facebook" placeholder="https://facebook.com/tu_pagina">
+      </div>
+      <div class="form-group">
+        <label for="tiktok">Link TikTok:</label>
+        <input type="url" id="tiktok" name="tiktok" placeholder="https://tiktok.com/@tu_usuario">
+      </div>
+      <!-- Acepto Términos y Condiciones -->
+      <div class="terms-container">
+        <input type="checkbox" id="acepto" name="acepto" required>
+        <label for="acepto">Acepto los <a href="#terminos" style="color:#1abc9c; text-decoration:underline;">Términos y Condiciones</a></label>
+      </div>
 
-        <div class="terms">
-            <label>
-                <input type="checkbox" id="acceptTerms" required>
-                Acepto los <a href="#" id="showTerms">términos y condiciones</a>
-            </label>
-        </div>
+      <!-- Texto de Términos y Condiciones (sólo lectura) -->
+      <div class="terms-text" id="terminos">
+<p><strong>Términos y Condiciones</strong></p>
+<p>Bienvenido a la plataforma Red de Apoyo a Emprendedores Locales (“nosotros”, “la plataforma”). Al registrarte como emprendedor aceptas cumplir con los siguientes términos y condiciones:</p>
+<ol style="margin-left:1rem; margin-bottom:0.5rem;">
+  <li><strong>Objeto:</strong> La plataforma conecta mentores con emprendedores. Tú, como emprendedor, te comprometes a proporcionar información veraz sobre tu negocio y a utilizar los servicios de asesoría de buena fe.</li>
+  <li><strong>Responsabilidad de Contenido:</strong> Eres responsable de toda la información que subas (texto, imágenes, videos). No se permite contenido ilegal, difamatorio, obsceno o que infrinja derechos de terceros.</li>
+  <li><strong>Protección de Datos:</strong> Los datos personales que nos proporciones serán tratados conforme a nuestra Política de Privacidad. Nos comprometemos a no compartir tu información con terceros sin tu consentimiento, salvo requerimientos legales.</li>
+  <li><strong>Conducta:</strong> No se tolerará ningún tipo de acoso, discriminación o comportamiento abusivo. El incumplimiento de esta norma podrá derivar en la suspensión o eliminación de tu cuenta.</li>
+  <li><strong>Terminación:</strong> Puedes solicitar la eliminación de tu cuenta en cualquier momento. La plataforma se reserva el derecho de suspender o cancelar tu cuenta si detecta cualquier violación a estos Términos y Condiciones.</li>
+  <li><strong>Modificaciones:</strong> Podremos modificar estos Términos y Condiciones en cualquier momento. Te notificaremos con antelación razonable. El uso continuado tras cambios implica tu aceptación.</li>
+  <li><strong>Jurisdicción:</strong> Estos términos se rigen por las leyes del país donde opera la plataforma. Cualquier controversia será resuelta ante tribunales competentes de esa jurisdicción.</li>
+</ol>
+      </div>
 
-        <button type="submit" class="btn" id="submitBtn" disabled>Registrarse</button>
-        <a href="Login_emprendedor.jsp">¿Ya tienes cuenta? Inicia sesión</a>
+      <button type="submit" id="btn-submit" class="btn-submit" disabled>Registrarme</button>
     </form>
-</main>
 
-<footer>
-    <p>&copy; 2025 Red de Apoyo a Emprendedores</p>
-</footer>
+    <a href="Login_emprendedor.jsp" class="back-link">← Ya tengo cuenta</a>
+  </div>
 
-<!-- Modal de Términos y Condiciones -->
-<div id="termsModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" id="closeModal">&times;</span>
-        <h2>Términos y Condiciones</h2>
-        
-        <div class="modal-section">
-            <h3>1. Aceptación de los Términos</h3>
-            <p>Al registrarte en Red de Apoyo a Emprendedores, aceptas estos términos y condiciones en su totalidad. Este acuerdo establece las bases de nuestra relación profesional.</p>
-        </div>
+  <script>
+    // Mapeo departamentos → ciudades (10 ciudades por departamento)
+   const ciudadesPorDepartamento = {
+  "Antioquia": [
+    "Medellín", "Envigado", "Bello", "Itagüí", "Rionegro", "Sabaneta", "La Estrella", "Copacabana", "Apartadó", "Turbo"
+  ],
+  "Atlántico": [
+    "Barranquilla", "Soledad", "Malambo", "Sabanalarga", "Galapa", "Baranoa", "Puerto Colombia", "Santo Tomás", "Palmar de Varela", "Campo de la Cruz"
+  ],
+  "Bolívar": [
+    "Cartagena", "Magangué", "Turbaco", "Arjona", "El Carmen de Bolívar", "San Juan Nepomuceno", "Santa Rosa", "Mompox", "María La Baja", "Clemencia"
+  ],
+  "Bogotá D.C.": [
+    "Bogotá"
+  ],
+  "Boyacá": [
+    "Tunja", "Duitama", "Sogamoso", "Chiquinquirá", "Paipa", "Villa de Leyva", "Moniquirá", "Samacá", "Tibasosa", "Soatá"
+  ],
+  "Caldas": [
+    "Manizales", "Villamaría", "Chinchiná", "La Dorada", "Riosucio", "Anserma", "Salamina", "Neira", "Supía", "Pensilvania"
+  ],
+  "Cauca": [
+    "Popayán", "Santander de Quilichao", "Puerto Tejada", "Patía", "El Tambo", "Guapi", "Piendamó", "Inzá", "Mercaderes", "Timbío"
+  ],
+  "Cundinamarca": [
+    "Soacha", "Chía", "Fusagasugá", "Girardot", "Zipaquirá", "Facatativá", "Madrid", "Mosquera", "Cajicá", "La Calera"
+  ],
+  "Huila": [
+    "Neiva", "Pitalito", "Garzón", "La Plata", "Campoalegre", "Algeciras", "Yaguará", "San Agustín", "Isnos", "Rivera"
+  ],
+  "Magdalena": [
+    "Santa Marta", "Ciénaga", "Fundación", "El Banco", "Plato", "Pivijay", "Aracataca", "Zona Bananera", "Sitionuevo", "Puebloviejo"
+  ],
+  "Meta": [
+    "Villavicencio", "Acacías", "Granada", "Puerto López", "Cumaral", "San Martín", "Restrepo", "Puerto Gaitán", "Guamal", "Castilla La Nueva"
+  ],
+  "Nariño": [
+    "Pasto", "Tumaco", "Ipiales", "Túquerres", "Sandoná", "La Unión", "Samaniego", "El Charco", "Barbacoas", "Cumbal"
+  ],
+  "Norte de Santander": [
+    "Cúcuta", "Ocaña", "Pamplona", "Villa del Rosario", "Los Patios", "El Zulia", "Tibú", "Ábrego", "Chinácota", "Sardinata"
+  ],
+  "Quindío": [
+    "Armenia", "Calarcá", "Montenegro", "La Tebaida", "Quimbaya", "Circasia", "Filandia", "Salento", "Pijao", "Buenavista"
+  ],
+  "Risaralda": [
+    "Pereira", "Dosquebradas", "La Virginia", "Santa Rosa de Cabal", "Belén de Umbría", "Marsella", "Quinchía", "Apía", "Mistrató", "Guática"
+  ],
+  "Santander": [
+    "Bucaramanga", "Floridablanca", "Piedecuesta", "Girón", "Barrancabermeja", "San Gil", "Socorro", "Lebrija", "Rionegro"
+  ],
+  "Tolima": [
+    "Ibagué", "Espinal", "Melgar", "Honda", "Líbano", "Chaparral", "Mariquita", "Guamo", "Flandes", "Purificación"
+  ],
+  "Valle del Cauca": [
+    "Cali", "Palmira", "Buenaventura", "Jamundí", "Tuluá", "Buga", "Cartago", "Yumbo", "Candelaria", "Sevilla"
+  ]
+};
 
-        <div class="modal-section">
-            <h3>2. Uso del Servicio</h3>
-            <p>Nuestro servicio está diseñado para conectar emprendedores con mentores y clientes. Como usuario, te comprometes a:</p>
-            <ul>
-                <li>Utilizar el servicio de manera ética y profesional</li>
-                <li>Mantener interacciones respetuosas con otros usuarios</li>
-                <li>No utilizar la plataforma para actividades ilegales</li>
-                <li>Respetar la propiedad intelectual de otros usuarios</li>
-            </ul>
-        </div>
 
-        <div class="modal-section">
-            <h3>3. Registro y Cuenta</h3>
-            <ul>
-                <li>Debes proporcionar información precisa y completa durante el registro</li>
-                <li>Eres responsable de mantener la seguridad de tu cuenta</li>
-                <li>No debes compartir tu cuenta con terceros</li>
-                <li>Debes mantener tu información actualizada</li>
-            </ul>
-        </div>
+    document.addEventListener('DOMContentLoaded', () => {
+      const departamentoSelect = document.getElementById('departamento');
+      const ciudadSelect       = document.getElementById('ciudad');
 
-        <div class="modal-section">
-            <h3>4. Privacidad y Datos</h3>
-            <p>Protegemos tu información personal según nuestra política de privacidad. Al registrarte:</p>
-            <ul>
-                <li>Aceptas nuestras prácticas de manejo de datos</li>
-                <li>Autorizas el almacenamiento seguro de tu información</li>
-                <li>Entiendes tus derechos sobre tus datos personales</li>
-            </ul>
-        </div>
+      // Cada vez que cambia el departamento, actualizamos lista de ciudades:
+      departamentoSelect.addEventListener('change', () => {
+        const depto = departamentoSelect.value;
+        // Primero limpiamos el <select> de ciudad:
+        ciudadSelect.innerHTML = '<option value="">-- Selecciona una ciudad --</option>';
 
-        <div class="modal-section">
-            <h3>5. Contenido y Conducta</h3>
-            <ul>
-                <li>No debes publicar contenido ilegal, ofensivo o fraudulento</li>
-                <li>Respetamos y protegemos los derechos de propiedad intelectual</li>
-                <li>Nos reservamos el derecho de eliminar contenido inapropiado</li>
-                <li>Eres responsable del contenido que publicas</li>
-            </ul>
-        </div>
-
-        <div class="modal-section">
-            <h3>6. Limitación de Responsabilidad</h3>
-            <p>Red de Apoyo a Emprendedores no se hace responsable por:</p>
-            <ul>
-                <li>Pérdidas o daños derivados del uso del servicio</li>
-                <li>Interrupciones o fallos técnicos del servicio</li>
-                <li>Contenido generado por usuarios</li>
-                <li>Disputas entre usuarios de la plataforma</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-    <script>
-    const pwd = document.getElementById('password');
-    const meterFill = document.getElementById('strengthFill');
-    const meterText = document.getElementById('strengthText');
-    const submitBtn = document.getElementById('submitBtn');
-    const acceptTerms = document.getElementById('acceptTerms');
-    const modal = document.getElementById('termsModal');
-    const showTerms = document.getElementById('showTerms');
-    const closeModal = document.getElementById('closeModal');
-
-    // Modal functionality
-    showTerms.onclick = function(e) {
-        e.preventDefault();
-        modal.style.display = "block";
-    }
-
-    closeModal.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function(e) {
-        if (e.target == modal) {
-            modal.style.display = "none";
+        if (ciudadesPorDepartamento[depto]) {
+          ciudadesPorDepartamento[depto].forEach(ciudad => {
+            const option = document.createElement('option');
+            option.value = ciudad;
+            option.textContent = ciudad;
+            ciudadSelect.appendChild(option);
+          });
+          ciudadSelect.disabled = false;
+        } else {
+          // Si no hay ciudades definidas para ese departamento:
+          const opt = document.createElement('option');
+          opt.value = "";
+          opt.textContent = "Sin datos de ciudades";
+          ciudadSelect.appendChild(opt);
+          ciudadSelect.disabled = true;
         }
-    }
+      });
 
-    // Password strength and form validation
-    pwd.addEventListener('input', updateStrength);
-    acceptTerms.addEventListener('change', validateForm);
+      // -------- LÓGICA DE CONTRASEÑA Y TÉRMINOS --------
+      const pwdInput       = document.getElementById('password');
+      const btnSubmit      = document.getElementById('btn-submit');
+      const checkboxAcepto = document.getElementById('acepto');
 
-    function updateStrength() {
-        const val = pwd.value;
-        let score = 0;
-        if (val.length >= 8) score++;
-        if (/[A-Z]/.test(val)) score++;
-        if (/[^A-Za-z0-9]/.test(val)) score++;
+      // Íconos de requisitos
+      const iconLength  = document.getElementById('icon-length');
+      const iconLower   = document.getElementById('icon-lower');
+      const iconUpper   = document.getElementById('icon-upper');
+      const iconDigit   = document.getElementById('icon-digit');
+      const iconSpecial = document.getElementById('icon-special');
 
-        switch (score) {
-            case 0:
-                meterFill.style.width = '0%';   
-                meterFill.style.background = 'red';
-                meterText.textContent = 'Muy débil';
-                meterText.className = 'strength-text weak';
-                break;
-            case 1:
-                meterFill.style.width = '33%';  
-                meterFill.style.background = 'red';
-                meterText.textContent = 'Débil';
-                meterText.className = 'strength-text weak';
-                break;
-            case 2:
-                meterFill.style.width = '66%';  
-                meterFill.style.background = 'orange';
-                meterText.textContent = 'Mediana';
-                meterText.className = 'strength-text medium';
-                break;
-            case 3:
-                meterFill.style.width = '100%'; 
-                meterFill.style.background = '#2ecc71';
-                meterText.textContent = 'Fuerte';
-                meterText.className = 'strength-text strong';
-                break;
+      function compruebaRequisitos() {
+        const pwd = pwdInput.value;
+
+        const okLength  = pwd.length >= 8;
+        const okLower   = /[a-z]/.test(pwd);
+        const okUpper   = /[A-Z]/.test(pwd);
+        const okDigit   = /\d/.test(pwd);
+        const okSpecial = /[!@#$%^&*]/.test(pwd);
+
+        toggleIcon(iconLength, okLength);
+        toggleIcon(iconLower, okLower);
+        toggleIcon(iconUpper, okUpper);
+        toggleIcon(iconDigit, okDigit);
+        toggleIcon(iconSpecial, okSpecial);
+
+        const todosOk = okLength && okLower && okUpper && okDigit && okSpecial && checkboxAcepto.checked;
+        btnSubmit.disabled = !todosOk;
+      }
+
+      function toggleIcon(element, isValid) {
+        if (isValid) {
+          element.textContent   = '✓';
+          element.classList.remove('invalid');
+          element.classList.add('valid');
+        } else {
+          element.textContent   = '✖';
+          element.classList.remove('valid');
+          element.classList.add('invalid');
         }
-        validateForm();
-    }
+      }
 
-    function validateForm() {
-        const passwordScore = pwd.value.length >= 8 
-            && /[A-Z]/.test(pwd.value) 
-            && /[^A-Za-z0-9]/.test(pwd.value);
-        submitBtn.disabled = !(passwordScore && acceptTerms.checked);
-    }
-    </script>
+      pwdInput.addEventListener('input', compruebaRequisitos);
+      checkboxAcepto.addEventListener('change', compruebaRequisitos);
+    });
+  </script>
+
 </body>
 </html>

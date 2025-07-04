@@ -165,6 +165,10 @@
           <i class="fas fa-graduation-cap"></i>
           Gestionar Capacitaciones
         </button>
+        <button class="btn" onclick="location.href='descargar_emprendedores.jsp'">
+          <i class="fas fa-download"></i>
+          Descargar Lista de Emprendedores
+        </button>
       </div>
     </div>
   </div>

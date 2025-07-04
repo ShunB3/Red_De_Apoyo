@@ -170,11 +170,9 @@
     <h1>Admin – Calendario</h1>
     <nav>
       <ul>
-        <li><a href="admin_home.jsp">Inicio</a></li>
-        <li><a href="calendario_admin.jsp" class="active">Calendario</a></li>
+        <li><a href="admin_home.jsp">Panel</a></li>
       </ul>
     </nav>
-    <button class="btn" onclick="location.href='Logout.jsp'">Cerrar sesión</button>
   </div>
 </header>
 

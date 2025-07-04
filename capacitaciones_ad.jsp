@@ -308,7 +308,6 @@
     <div class="nav-buttons">
       <a href="admin_home.jsp" class="btn">← Panel</a>
       <a href="subir_capacitacion.jsp" class="btn">+ Subir Capacitación</a>
-      <a href="Logout.jsp" class="btn">Cerrar sesión</a>
     </div>
   </header>
 
